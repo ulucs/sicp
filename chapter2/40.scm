@@ -1,0 +1,17 @@
+(define (enumerate-interval low high)
+  (if (> low high)
+    '()
+    (cons low
+          (enumerate-interval (+ low 1)
+                              high))))
+(enumerate-interval 2 9)
+
+(define (unique-pairs n)
+  (fold-left append '()
+    (map (lambda (x)
+         (map (lambda (y)
+                (list x y))
+              (enumerate-interval (+ x 1)
+                                  n)))
+       (enumerate-interval 1 (- n 1)))))
+(unique-pairs 9)

@@ -1,0 +1,25 @@
+(define (enumerate-interval low high)
+  (if (> low high)
+    '()
+    (cons low
+          (enumerate-interval (+ low 1)
+                              high))))
+(define (ordered-triplets n)
+      (flatmap (lambda (x)
+             (flatmap (lambda (y)
+                    (map (lambda (z)
+                           (list x y z))
+                         (enumerate-interval (+ y 1) n)))
+                  (enumerate-interval (+ x 1) (- n 1))))
+           (enumerate-interval 1 (- n 2))))
+(define (triplets-with-sum n s)
+  (filter (lambda (x)
+           (eq? s
+               (fold-left + 0 x)))
+          (ordered-triplets n)))
+(define (flatmap f items)
+  (fold-left append '()
+             (map f items)))
+
+(triplets-with-sum 15 25)
+
